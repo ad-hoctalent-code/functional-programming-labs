@@ -120,8 +120,12 @@ public class LambdasLab2 {
 		// TODO: then get the average of them , then uncomment bellow lines
 		Function<People,Integer> mapper2 = p -> p.age;
 		List<Integer> peopleAges = mapPeopleToAges(getSomePeople(),mapper2);
-		double avgAge= /*calculate avg of peopleAges*/
-		//Assertions.assertEquals(26, avgAge);
+		double avgAge = 0.0;
+		for (int ages : peopleAges) {
+			avgAge += ages;
+		}
+		 avgAge = avgAge/peopleAges.size();
+		Assertions.assertEquals(26.0, avgAge);
 	}
 	
 
@@ -129,8 +133,8 @@ public class LambdasLab2 {
 	@Test
 	void SupplierTest() {
 		//TODO: replace "REPLACE_WITH_LAMBDA" with a lambda expression to supply the array: {1,2,3,4,5}, then uncomment bellow lines
-		//Supplier<int[]> supplier= REPLACE_WITH_LAMBDA;
-		//Assertions.assertEquals(new int[] {1,2,3,4,5}, supplier.get());
+		Supplier<int[]> supplier= () -> new int[] {1,2,3,4,5};
+		Assertions.assertEquals(new int[] {1,2,3,4,5}, supplier.get());
 	}
 
 }
@@ -143,4 +147,3 @@ class People{
 		this.age = age;
 	}
 }
-
