@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +15,7 @@ class StreamsLab {
 	@Test
 	void olderThan25Test() {
 		People.getSomePeople().stream()
-				// .filter(LAMBDA)
+				.filter(p -> p.age > 25)
 				.forEach(System.out::println);
 	}
 
@@ -23,6 +24,7 @@ class StreamsLab {
 	@Test
 	void namesOf5LettersTest() {
 		People.getSomePeople().stream()
+				.filter(p -> p.name.length() == 5)
 				// .STREAM_OPERATION(REPLACE_WITH_LAMBDA)
 				.forEach(System.out::println);
 	}
@@ -32,6 +34,7 @@ class StreamsLab {
 	@Test
 	void namesonUpperCaseTest() {
 		People.getSomePeople().stream()
+				.filter(p -> p.age < 20)
 				// TODO: streams operations as requested
 				.forEach(System.out::println);
 	}
