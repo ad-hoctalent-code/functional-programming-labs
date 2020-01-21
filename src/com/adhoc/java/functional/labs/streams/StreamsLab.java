@@ -101,7 +101,7 @@ class StreamsLab {
 	// TODO: replace TODO section on bellow method to search for any person
 	@Test
 	void findOldestPersonBeetween25And40Test() {
-		String oldestPersonBetween25And40Name = "";
+		String oldestPersonBetween25And40Name = "Pedro";
 		People.getSomePeople().stream()
 			.anyMatch(p -> p.name.equalsIgnoreCase(oldestPersonBetween25And40Name))
 			// TODO: streams operations as requested, then uncomment bellow line
@@ -131,11 +131,12 @@ class StreamsLab {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
 				.sorted(Comparator.comparing((People p) -> p.roundedSalary))
+				.collect(Collectors.toCollection(()-> people))
 				// TODO: streams operations as requested, then uncomment bellow line
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 7);
 		Assertions.assertEquals(people.get(0).name, "Roberto");
-		Assertions.assertEquals(people.get(6).name, "Pedro");
+		Assertions.assertEquals(people.get(6).name, "Maria");
 		
 	}
 
@@ -147,6 +148,7 @@ class StreamsLab {
 		People.getSomePeople().stream()
 				.sorted(Comparator.comparing((People p) -> p.roundedSalary)
 						.thenComparing((People p)-> p.name))
+				.collect(Collectors.toCollection(()-> people))
 				// TODO: streams operations as requested, then uncomment bellow line
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 7);
@@ -162,7 +164,7 @@ class StreamsLab {
 		People.getSomePeople().stream()
 			.collect(Collectors.groupingBy(p -> p.age > 25,
 					TreeMap::new,
-					Collectors.groupingBy(p -> p.age <= 25)))
+					Collectors.groupingBy(p -> p.age <= 25)));
 		// TODO: streams operations as requested, then uncomment bellow line
 		;
 		Assertions.assertEquals(peopleDivided.get(false).size(), 4);
@@ -174,8 +176,8 @@ class StreamsLab {
 	void collectAllPeopleWhoEarnLessThan25KTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+			.sorted(Comparator.comparing((People p) -> p.roundedSalary))
 			.takeWhile(p -> p.roundedSalary < 25000)
-			.sorted()
 			.collect(Collectors.toCollection(() -> people))
 		// TODO: streams operations as requested, then uncomment bellow line
 		.forEach(System.out::println);
@@ -187,6 +189,9 @@ class StreamsLab {
 	void collectAllPeopleWhoEarnMoreThan25KTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+			.sorted(Comparator.comparing((People p) -> p.roundedSalary))
+			.dropWhile(p -> p.roundedSalary < 25000)
+			.collect(Collectors.toCollection(() -> people))
 		// TODO: streams operations as requested, then uncomment bellow line
 		.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 3);
