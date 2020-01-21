@@ -170,7 +170,6 @@ class StreamsLab {
 					TreeMap::new,
 					Collectors.groupingBy(p -> p.age <= 25)));
 		// TODO: streams operations as requested, then uncomment bellow line
-		;
 		Assertions.assertEquals(peopleDivided.get(false).size(), 4);
 		Assertions.assertEquals(peopleDivided.get(true).size(), 3);
 	}
