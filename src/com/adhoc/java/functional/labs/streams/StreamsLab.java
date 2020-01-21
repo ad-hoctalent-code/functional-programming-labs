@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Map;
+import java.util.TreeMap;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import java.util.function.Predicate;
@@ -101,8 +103,9 @@ class StreamsLab {
 	void findOldestPersonBeetween25And40Test() {
 		String oldestPersonBetween25And40Name = "";
 		People.getSomePeople().stream()
-		// TODO: streams operations as requested, then uncomment bellow line
-		// .ifPresent(System.out::println)
+			.anyMatch(p -> p.name.equalsIgnoreCase(oldestPersonBetween25And40Name))
+			// TODO: streams operations as requested, then uncomment bellow line
+			//.ifPresent(System.out::println)
 		;
 		Assertions.assertEquals(oldestPersonBetween25And40Name, "Pedro");
 		
@@ -114,8 +117,10 @@ class StreamsLab {
 	void collectPeopleTest() {
 		List<People> peopleWithR = new ArrayList<>();
 		People.getSomePeople().stream()
+		.filter(p -> p.name.startsWith("R"))
+		.collect(Collectors.toCollection(()-> peopleWithR))
 		// TODO: streams operations as requested, then uncomment bellow line
-		// .ifPresent(System.out::println)
+		//.ifPresent(System.out::println)
 		;
 		Assertions.assertEquals(peopleWithR.size(), 2);
 	}
@@ -125,6 +130,7 @@ class StreamsLab {
 	void sortPeopleBySalaryTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+				.sorted(Comparator.comparing((People p) -> p.roundedSalary))
 				// TODO: streams operations as requested, then uncomment bellow line
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 7);
@@ -139,6 +145,8 @@ class StreamsLab {
 	void sortPeopleBySalaryAndNameTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+				.sorted(Comparator.comparing((People p) -> p.roundedSalary)
+						.thenComparing((People p)-> p.name))
 				// TODO: streams operations as requested, then uncomment bellow line
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 7);
@@ -152,6 +160,9 @@ class StreamsLab {
 	void groupPeopleByAgeTest() {
 		Map<Boolean, List<Integer>> peopleDivided = new HashMap<>();
 		People.getSomePeople().stream()
+			.collect(Collectors.groupingBy(p -> p.age > 25,
+					TreeMap::new,
+					Collectors.groupingBy(p -> p.age <= 25)))
 		// TODO: streams operations as requested, then uncomment bellow line
 		;
 		Assertions.assertEquals(peopleDivided.get(false).size(), 4);
@@ -163,6 +174,9 @@ class StreamsLab {
 	void collectAllPeopleWhoEarnLessThan25KTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+			.takeWhile(p -> p.roundedSalary < 25000)
+			.sorted()
+			.collect(Collectors.toCollection(() -> people))
 		// TODO: streams operations as requested, then uncomment bellow line
 		.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 4);
