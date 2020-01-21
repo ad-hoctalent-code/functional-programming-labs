@@ -164,11 +164,13 @@ class StreamsLab {
 	// their age, 1 older than 25, the other younger or equal than 25
 	@Test
 	void groupPeopleByAgeTest() {
-		Map<Boolean, List<People>> peopleDivided = new HashMap<>();
+		/*Map<Boolean, List<People>> peopleDivided = new HashMap<>();
 		People.getSomePeople().stream()
 			.collect(Collectors.groupingBy(p -> p.age > 25,
 					TreeMap::new,
-					Collectors.groupingBy(p -> p.age <= 25)));
+					Collectors.groupingBy(p -> p.age <= 25)));*/
+		Map<Boolean, List<People>> peopleDivided = People.getSomePeople().stream()
+				.collect(Collectors.groupingBy(p -> p.age > 25));
 		// TODO: streams operations as requested, then uncomment bellow line
 		Assertions.assertEquals(peopleDivided.get(false).size(), 4);
 		Assertions.assertEquals(peopleDivided.get(true).size(), 3);
