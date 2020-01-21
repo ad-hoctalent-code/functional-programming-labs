@@ -63,10 +63,11 @@ class StreamsLab {
 	@Test
 	void olderPersonTest() {
 		String olderPerson = "";
-		People.getSomePeople().stream()
-				//.collect(Collectors.maxBy(Comparator.comparing((People p) -> p.age))		
+		olderPerson = People.getSomePeople().stream()
+				.max(Comparator.comparing((People p) -> p.age))
+				.get().name;
 				// TODO: streams operations as requested
-				.forEach(System.out::println);
+				//.forEach(System.out::println);
 		
 		Assertions.assertEquals("Pedro", olderPerson);
 		
@@ -92,7 +93,10 @@ class StreamsLab {
 	@Test
 	void avgAgePeopleTest() {
 		int avg = 0;
-		People.getSomePeople().stream();
+		avg = (int)People.getSomePeople().stream()
+			.mapToInt((People p) -> p.age)
+			.average()
+			.getAsDouble();
 		// TODO: streams operations as requested
 		Assertions.assertEquals(avg, 26);
 		;
