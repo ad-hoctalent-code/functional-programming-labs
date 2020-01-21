@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.util.function.Predicate;
 
 class StreamsLab {
 
@@ -20,6 +21,7 @@ class StreamsLab {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
 				.filter(p -> p.age > 25)
+				.collect(Collectors.toCollection(()-> people))
 				.forEach(System.out::println);
 		//TODO: Add collector and send results to people
 
@@ -34,6 +36,7 @@ class StreamsLab {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
 				.filter(p -> p.name.length() == 5)
+				.collect(Collectors.toCollection(() -> people))
 				// .STREAM_OPERATION(REPLACE_WITH_LAMBDA)
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 4);
@@ -47,6 +50,7 @@ class StreamsLab {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
 				.filter(p -> p.age < 20)
+				.collect(Collectors.toCollection(()-> people))
 				// TODO: streams operations as requested
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 3);
@@ -58,6 +62,7 @@ class StreamsLab {
 	void olderPersonTest() {
 		String olderPerson = "";
 		People.getSomePeople().stream()
+				//.collect(Collectors.maxBy(Comparator.comparing((People p) -> p.age))		
 				// TODO: streams operations as requested
 				.forEach(System.out::println);
 		
@@ -71,6 +76,8 @@ class StreamsLab {
 	void sortPeopleByNameTest() {
 		List<People> people = new ArrayList<>();
 		People.getSomePeople().stream()
+				.sorted(Comparator.comparing((People p) -> p.name))
+				.collect(Collectors.toCollection(() -> people))
 				// TODO: streams operations as requested
 				.forEach(System.out::println);
 		Assertions.assertEquals(people.size(), 7);
